@@ -130,23 +130,20 @@ class Container extends Component<PropsWithChildren<ContainerProps>> {
   }
 
   getContainerOptions(): ContainerOptions {
-    return Object.keys(this.props).reduce(
-      (result: ContainerOptions, key: string) => {
-        const optionName = key as keyof ContainerOptions;
-        const prop = this.props[optionName];
+    return Object.keys(this.props).reduce((result: any, key: string) => {
+      const optionName = key as keyof ContainerOptions;
+      const prop = this.props[optionName];
 
-        if (typeof prop === "function") {
-          result[optionName] = (...params: any[]) => {
-            return (this.props[optionName] as Function)(...params);
-          };
-        } else {
-          result[optionName] = prop;
-        }
+      if (typeof prop === "function") {
+        result[optionName] = (...params: any[]) => {
+          return (this.props[optionName] as Function)(...params);
+        };
+      } else {
+        result[optionName] = prop;
+      }
 
-        return result;
-      },
-      {}
-    ) as ContainerOptions;
+      return result;
+    }, {}) as ContainerOptions;
   }
 }
 
